@@ -75,25 +75,39 @@
   <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px; margin-top:20px;">
 
     <div style="background:#111827; padding:20px; border-radius:12px; width:220px;">
-      <h3>Basic Restore</h3>
-      <p>$5</p>
-      <p>✔ Improve lighting & clarity</p>
-      <p>✔ Fix fading</p>
-    </div>
+   <form action="https://formsubmit.co/pymnzmail@gmail.com" method="POST" enctype="multipart/form-data" style="margin-top:20px;">
 
-    <div style="background:#1e293b; padding:20px; border-radius:12px; width:220px; border:2px solid #3b82f6;">
-      <h3>Full Restore 🔥</h3>
-      <p>$10</p>
-      <p>✔ Full repair & cleanup</p>
-      <p>✔ Colour + sharpening</p>
-      <p><b>Most Popular</b></p>
-    </div>
+  <input type="file" name="photo" required 
+  style="width:100%; margin-top:10px; padding:12px; border-radius:8px;">
 
-    <div style="background:#111827; padding:20px; border-radius:12px; width:220px;">
-      <h3>Colour Restore</h3>
-      <p>$5</p>
-      <p>✔ Add natural colour</p>
-      <p>✔ Enhance details</p>
+  <p style="margin-top:15px; color:#cbd5e1;">
+  Not sure what your photo needs? Choose a free preview and we’ll assess it first.
+</p>
+
+  <select name="service" required 
+style="width:100%; margin-top:10px; padding:12px; border-radius:8px;">
+  <option value="">Select Service</option>
+  <option value="FREE PREVIEW">Free Preview (Recommended)</option>
+  <option value="Basic Restore - $5">Basic Restore - $5</option>
+  <option value="Colour Restore - $5">Colour Restore - $5</option>
+  <option value="Full Restore - $10">Full Restore - $10 ⭐ Most Popular</option>
+</select>
+
+  <input name="name" placeholder="Your Name" required 
+  style="width:100%; margin-top:10px; padding:12px; border-radius:8px;">
+
+  <input name="email" placeholder="Your Email" required 
+  style="width:100%; margin-top:10px; padding:12px; border-radius:8px;">
+
+  <textarea name="notes" placeholder="Any specific requests?" 
+  style="width:100%; margin-top:10px; padding:12px; border-radius:8px;"></textarea>
+
+  <button type="submit" 
+  style="width:100%; margin-top:15px; padding:12px; border-radius:10px; background:#3b82f6; color:white; font-weight:bold;">
+    Place Order
+  </button>
+
+</form>
     </div>
 
   </div>
@@ -144,15 +158,7 @@
   </div>
 </div>
 
-  <div class="card">
-    <h2>Photo Restoration</h2>
-
-    <input type="file">
-    <input placeholder="Name">
-    <input placeholder="Email">
-
-    <button>Place Order</button>
-  </div>
+ 
 
 </div>
 
