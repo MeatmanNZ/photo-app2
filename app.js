@@ -171,3 +171,5 @@ function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
+
+<script src="app.js"></script>
