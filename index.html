@@ -41,18 +41,24 @@ h2 { margin-top: 40px; }
   padding: 40px 20px;
 }
 
-.slider {
-  position: relative;
-  max-width: 500px;
-  margin: 30px auto;
+/* SLIDER */
+.slider-container {
+  max-width: 600px;
+  margin: 40px auto;
 }
 
-.slider img {
+.slider-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.slider-image {
   width: 100%;
   display: block;
 }
 
-.slider .overlay {
+.slider-overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -60,27 +66,27 @@ h2 { margin-top: 40px; }
   overflow: hidden;
 }
 
-.slider input {
-  width: 100%;
-}
-
-.upload-box {
-  border: 2px dashed #ccc;
-  padding: 20px;
-  margin: 20px 0;
+.slider-handle {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 4px;
+  height: 100%;
   background: white;
+  cursor: ew-resize;
+  z-index: 10;
 }
 
-.preview img {
-  max-width: 100%;
-  margin-top: 15px;
-}
-
-input, button {
-  padding: 10px;
-  margin: 10px;
-  width: 80%;
-  max-width: 400px;
+.slider-handle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  background: #007bff;
+  border-radius: 50%;
+  transform: translateY(-50%);
 }
 
 .footer {
@@ -104,24 +110,25 @@ input, button {
   </div>
 </div>
 
-<!-- BEFORE/AFTER SLIDER -->
+<!-- SLIDER -->
 <div class="container">
   <h2>See the Difference</h2>
 
   <div class="slider-container">
-  <div class="slider-wrapper" id="sliderWrapper">
-    
-    <!-- AFTER image (background) -->
-    <img src="after1.jpg" class="slider-image">
+    <div class="slider-wrapper" id="sliderWrapper">
 
-    <!-- BEFORE image (overlay) -->
-    <div class="slider-overlay" id="sliderOverlay">
-      <img src="before1.jpg" class="slider-image">
+      <!-- AFTER -->
+      <img src="after1.jpg" class="slider-image">
+
+      <!-- BEFORE -->
+      <div class="slider-overlay" id="sliderOverlay">
+        <img src="before1.jpg" class="slider-image">
+      </div>
+
+      <!-- HANDLE -->
+      <div class="slider-handle" id="sliderHandle"></div>
+
     </div>
-
-    <!-- Drag handle -->
-    <div class="slider-handle" id="sliderHandle"></div>
-
   </div>
 </div>
 
@@ -139,27 +146,10 @@ input, button {
   <p>FREE preview before payment</p>
 </div>
 
-<!-- UPLOAD + EMAIL CAPTURE -->
+<!-- UPLOAD -->
 <div class="container" id="upload">
   <h2>Upload Your Photo</h2>
-
-  <div class="upload-box">
-    <input type="file" id="fileInput" accept="image/*">
-    <div class="preview" id="preview"></div>
-  </div>
-
-  <h3>Get Your Free Preview</h3>
-  <input type="text" id="name" placeholder="Your Name">
-  <input type="email" id="email" placeholder="Your Email">
-
-  <br>
-  <button class="cta" onclick="sendEmail()">Submit Request</button>
-</div>
-
-<!-- WEBSITE LINK -->
-<div class="container">
-  <h2>Learn More</h2>
-  <a href="https://www.preserveyourmemories.co.nz" class="cta">Visit Full Website</a>
+  <input type="file">
 </div>
 
 <!-- FOOTER -->
@@ -167,6 +157,7 @@ input, button {
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
+<!-- SCRIPT (ONLY ONE) -->
 <script>
 document.addEventListener("DOMContentLoaded", function () {
 
@@ -174,10 +165,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const overlay = document.getElementById("sliderOverlay");
   const handle = document.getElementById("sliderHandle");
 
-  if (!wrapper || !overlay || !handle) {
-    console.error("Slider elements not found");
-    return;
-  }
+  if (!wrapper || !overlay || !handle) return;
 
   let isDragging = false;
 
@@ -219,6 +207,5 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 </script>
 
-  window.location.href = `mailto:pymnzmail@gmail.com subject=Photo Restoration Request&body=Name: ${name}%0AEmail: ${email}`;
-}
-
+</body>
+</html>
