@@ -205,5 +205,51 @@ function sendEmail() {
 }
 </script>
 
+
+<script>
+const wrapper = document.getElementById("sliderWrapper");
+const overlay = document.getElementById("sliderOverlay");
+const handle = document.getElementById("sliderHandle");
+
+let isDragging = false;
+
+handle.addEventListener("mousedown", () => isDragging = true);
+window.addEventListener("mouseup", () => isDragging = false);
+
+window.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
+
+  const rect = wrapper.getBoundingClientRect();
+  let x = e.clientX - rect.left;
+
+  x = Math.max(0, Math.min(x, rect.width));
+
+  const percent = (x / rect.width) * 100;
+
+  overlay.style.width = percent + "%";
+  handle.style.left = percent + "%";
+});
+
+// MOBILE
+handle.addEventListener("touchstart", () => isDragging = true);
+window.addEventListener("touchend", () => isDragging = false);
+
+window.addEventListener("touchmove", (e) => {
+  if (!isDragging) return;
+
+  const rect = wrapper.getBoundingClientRect();
+  let x = e.touches[0].clientX - rect.left;
+
+  x = Math.max(0, Math.min(x, rect.width));
+
+  const percent = (x / rect.width) * 100;
+
+  overlay.style.width = percent + "%";
+  handle.style.left = percent + "%";
+});
+</script>
+
+</body>
+</html>
 </body>
 </html>
