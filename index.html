@@ -105,16 +105,20 @@ input, button {
 </div>
 
 <!-- BEFORE/AFTER SLIDER -->
-<div class="container">
-  <h2>See the Difference</h2>
+<div class="slider-container">
+  <div class="slider-wrapper" id="sliderWrapper">
+    
+    <!-- AFTER image (background) -->
+    <img src="images/after1.jpg" class="slider-image">
 
-  <div class="slider">
-    <!-- Replace these with your REAL images -->
-    <img src="images/after1.jpg">
-    <div class="overlay" id="overlay">
-      <img src="images/before1.jpg">
+    <!-- BEFORE image (overlay) -->
+    <div class="slider-overlay" id="sliderOverlay">
+      <img src="images/before1.jpg" class="slider-image">
     </div>
-    <input type="range" min="0" max="100" value="50" id="sliderRange">
+
+    <!-- Drag handle -->
+    <div class="slider-handle" id="sliderHandle"></div>
+
   </div>
 </div>
 
