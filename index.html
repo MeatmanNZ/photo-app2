@@ -21,7 +21,7 @@ body {
 }
 
 h1 { font-size: 2.2em; }
-h2 { margin-top: 40px; }
+h2 { margin-top: 50px; }
 
 .cta {
   background: #007bff;
@@ -34,17 +34,15 @@ h2 { margin-top: 40px; }
   font-weight: bold;
 }
 
-.cta:hover { background: #0056b3; }
-
 .hero {
   background: white;
-  padding: 40px 20px;
+  padding: 50px 20px;
 }
 
 /* SLIDER */
 .slider-container {
   max-width: 600px;
-  margin: 40px auto;
+  margin: 50px auto;
 }
 
 .slider-wrapper {
@@ -82,12 +80,26 @@ h2 { margin-top: 40px; }
   position: absolute;
   top: 50%;
   left: -10px;
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   background: #007bff;
   border-radius: 50%;
   transform: translateY(-50%);
 }
+
+/* LABELS */
+.label {
+  position: absolute;
+  top: 10px;
+  background: rgba(0,0,0,0.6);
+  color: white;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 5px;
+}
+
+.before-label { left: 10px; }
+.after-label { right: 10px; }
 
 .footer {
   background: #222;
@@ -110,26 +122,36 @@ h2 { margin-top: 40px; }
   </div>
 </div>
 
-<!-- SLIDER -->
+<!-- SLIDERS -->
 <div class="container">
   <h2>See the Difference</h2>
 
+  <!-- SLIDER 1 -->
   <div class="slider-container">
-    <div class="slider-wrapper" id="sliderWrapper">
-
-      <!-- AFTER -->
+    <div class="slider-wrapper">
       <img src="after1.jpg" class="slider-image">
-
-      <!-- BEFORE -->
-      <div class="slider-overlay" id="sliderOverlay">
+      <div class="slider-overlay">
         <img src="before1.jpg" class="slider-image">
       </div>
-
-      <!-- HANDLE -->
-      <div class="slider-handle" id="sliderHandle"></div>
-
+      <div class="slider-handle"></div>
+      <div class="label before-label">BEFORE</div>
+      <div class="label after-label">AFTER</div>
     </div>
   </div>
+
+  <!-- SLIDER 2 -->
+  <div class="slider-container">
+    <div class="slider-wrapper">
+      <img src="after2.jpg" class="slider-image">
+      <div class="slider-overlay">
+        <img src="before2.jpg" class="slider-image">
+      </div>
+      <div class="slider-handle"></div>
+      <div class="label before-label">BEFORE</div>
+      <div class="label after-label">AFTER</div>
+    </div>
+  </div>
+
 </div>
 
 <!-- TRUST -->
@@ -157,18 +179,35 @@ h2 { margin-top: 40px; }
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
-<!-- SCRIPT (ONLY ONE) -->
 <script>
-document.addEventListener("DOMContentLoaded", function () {
+// INIT ALL SLIDERS
+document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
 
-  const wrapper = document.getElementById("sliderWrapper");
-  const overlay = document.getElementById("sliderOverlay");
-  const handle = document.getElementById("sliderHandle");
-
-  if (!wrapper || !overlay || !handle) return;
+  const overlay = wrapper.querySelector(".slider-overlay");
+  const handle = wrapper.querySelector(".slider-handle");
 
   let isDragging = false;
 
+  // AUTO ANIMATE
+  let direction = 1;
+  let percent = 50;
+
+  function autoSlide() {
+    if (isDragging) return;
+
+    percent += direction * 0.3;
+
+    if (percent > 80 || percent < 20) direction *= -1;
+
+    overlay.style.width = percent + "%";
+    handle.style.left = percent + "%";
+
+    requestAnimationFrame(autoSlide);
+  }
+
+  autoSlide();
+
+  // MOUSE
   handle.addEventListener("mousedown", () => isDragging = true);
   window.addEventListener("mouseup", () => isDragging = false);
 
@@ -180,13 +219,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     x = Math.max(0, Math.min(x, rect.width));
 
-    const percent = (x / rect.width) * 100;
+    percent = (x / rect.width) * 100;
 
     overlay.style.width = percent + "%";
     handle.style.left = percent + "%";
   });
 
-  // MOBILE
+  // TOUCH
   handle.addEventListener("touchstart", () => isDragging = true);
   window.addEventListener("touchend", () => isDragging = false);
 
@@ -198,7 +237,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     x = Math.max(0, Math.min(x, rect.width));
 
-    const percent = (x / rect.width) * 100;
+    percent = (x / rect.width) * 100;
 
     overlay.style.width = percent + "%";
     handle.style.left = percent + "%";
