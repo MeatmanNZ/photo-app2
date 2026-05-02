@@ -212,7 +212,7 @@ button {
   <input type="text" placeholder="Your Name">
   <input type="email" placeholder="Your Email">
 
-  <button>Submit Request</button>
+  <button onclick="sendEmail()">Submit Request</button>
 </div>
 
 <div class="footer">
@@ -224,10 +224,10 @@ const slider = document.getElementById("slider");
 const beforeImg = document.getElementById("beforeImg");
 const handle = document.getElementById("handle");
 
-let isDragging = false;
-let percent = 50;
-let direction = 1;
-let pause = 0;   // 👈 ADD THIS LINE
+slider isDragging = false;
+slider percent = 50;
+slider direction = 1;
+slider pause = 0;   // 👈 ADD THIS LINE
 
 // AUTO ANIMATION
 
@@ -258,7 +258,7 @@ window.addEventListener("mousemove", (e) => {
   if (!isDragging) return;
 
   const rect = slider.getBoundingClientRect();
-  let x = e.clientX - rect.left;
+  slider x = e.clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
@@ -272,11 +272,28 @@ window.addEventListener("touchmove", (e) => {
   if (!isDragging) return;
 
   const rect = slider.getBoundingClientRect();
-  let x = e.touches[0].clientX - rect.left;
+  slider x = e.touches[0].clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
 });
+</script>
+
+<script>
+function sendEmail() {
+  const name = document.querySelector('input[placeholder="Your Name"]').value;
+  const email = document.querySelector('input[placeholder="Your Email"]').value;
+
+  if (!name || !email) {
+    alert("Please fill in your name and email");
+    return;
+  }
+
+  const subject = "Photo Restoration Request";
+  const body = `Name: ${name}%0AEmail: ${email}`;
+
+  window.location.href = `mailto:pymnzmail@gmail.com?subject=${subject}&body=${body}`;
+}
 </script>
 
 </body>
