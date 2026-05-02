@@ -52,7 +52,6 @@ h2 { margin-top: 50px; }
   overflow: hidden;
 }
 
-/* Both images fill container */
 .slider-image {
   position: absolute;
   width: 100%;
@@ -60,7 +59,7 @@ h2 { margin-top: 50px; }
   object-fit: cover;
 }
 
-/* BEFORE overlay (this gets "cut away") */
+/* BEFORE overlay */
 .slider-overlay {
   position: absolute;
   top: 0;
@@ -70,7 +69,7 @@ h2 { margin-top: 50px; }
   overflow: hidden;
 }
 
-/* Handle */
+/* HANDLE */
 .slider-handle {
   position: absolute;
   top: 0;
@@ -94,7 +93,7 @@ h2 { margin-top: 50px; }
   transform: translateY(-50%);
 }
 
-/* Labels */
+/* LABELS */
 .label {
   position: absolute;
   top: 12px;
@@ -108,6 +107,14 @@ h2 { margin-top: 50px; }
 
 .before-label { left: 10px; }
 .after-label { right: 10px; }
+
+/* UPLOAD */
+.upload-box {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  background: white;
+  margin: 20px 0;
+}
 
 .footer {
   background: #222;
@@ -125,7 +132,7 @@ h2 { margin-top: 50px; }
   <div class="container">
     <h1>Bring Your Old Photos Back to Life</h1>
     <p>Professional restoration with a FREE preview before you pay</p>
-    <a href="#" class="cta">Upload Your Photo – FREE Preview</a>
+    <a href="#upload" class="cta">Upload Your Photo – FREE Preview</a>
     <p>✔ No upfront cost ✔ Fast turnaround ✔ NZ-based</p>
   </div>
 </div>
@@ -135,20 +142,18 @@ h2 { margin-top: 50px; }
   <h2>See the Difference</h2>
 
   <div class="slider-container">
-    <div class="slider-wrapper">
+    <div class="slider-wrapper" id="slider">
 
-      <!-- AFTER (restored image underneath) -->
+      <!-- AFTER (this is revealed) -->
       <img src="after1.jpg" class="slider-image">
 
-      <!-- BEFORE (overlay removed as you drag) -->
-      <div class="slider-overlay">
+      <!-- BEFORE (this gets removed as you slide) -->
+      <div class="slider-overlay" id="overlay">
         <img src="before1.jpg" class="slider-image">
       </div>
 
-      <!-- HANDLE -->
-      <div class="slider-handle"></div>
+      <div class="slider-handle" id="handle"></div>
 
-      <!-- LABELS -->
       <div class="label before-label">BEFORE</div>
       <div class="label after-label">AFTER</div>
 
@@ -156,64 +161,101 @@ h2 { margin-top: 50px; }
   </div>
 </div>
 
+<!-- PRICING -->
+<div class="container">
+  <h2>Simple Pricing</h2>
+  <p><strong>$10–$50 NZD</strong> depending on damage</p>
+  <p>FREE preview before payment</p>
+</div>
+
+<!-- UPLOAD -->
+<div class="container" id="upload">
+  <h2>Upload Your Photo</h2>
+
+  <div class="upload-box">
+    <input type="file" id="fileInput">
+  </div>
+
+  <input type="text" id="name" placeholder="Your Name"><br>
+  <input type="email" id="email" placeholder="Your Email"><br>
+
+  <button class="cta" onclick="sendEmail()">Submit Request</button>
+</div>
+
 <!-- FOOTER -->
 <div class="footer">
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
-<!-- SCRIPT -->
 <script>
-document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
+const wrapper = document.getElementById("slider");
+const overlay = document.getElementById("overlay");
+const handle = document.getElementById("handle");
 
-  const overlay = wrapper.querySelector(".slider-overlay");
-  const handle = wrapper.querySelector(".slider-handle");
+let isDragging = false;
+let percent = 50;
+let direction = 1;
 
-  let isDragging = false;
+// AUTO ANIMATION (slow movement)
+function autoSlide() {
+  if (!isDragging) {
+    percent += direction * 0.1;
 
-  let target = 50;
-  let current = 50;
+    if (percent > 80 || percent < 20) direction *= -1;
 
-  // Smooth animation loop (controls speed)
-  function animate() {
-    current += (target - current) * 0.05; // smaller = slower
-
-    overlay.style.width = current + "%";
-    handle.style.left = current + "%";
-
-    requestAnimationFrame(animate);
+    overlay.style.width = percent + "%";
+    handle.style.left = percent + "%";
   }
 
-  animate();
+  requestAnimationFrame(autoSlide);
+}
 
-  // DESKTOP
-  wrapper.addEventListener("mousedown", () => isDragging = true);
-  window.addEventListener("mouseup", () => isDragging = false);
+autoSlide();
 
-  window.addEventListener("mousemove", (e) => {
-    if (!isDragging) return;
+// DRAG
+wrapper.addEventListener("mousedown", () => isDragging = true);
+window.addEventListener("mouseup", () => isDragging = false);
 
-    const rect = wrapper.getBoundingClientRect();
-    let x = e.clientX - rect.left;
+window.addEventListener("mousemove", (e) => {
+  if (!isDragging) return;
 
-    x = Math.max(0, Math.min(x, rect.width));
-    target = (x / rect.width) * 100;
-  });
+  const rect = wrapper.getBoundingClientRect();
+  let x = e.clientX - rect.left;
 
-  // MOBILE
-  wrapper.addEventListener("touchstart", () => isDragging = true);
-  window.addEventListener("touchend", () => isDragging = false);
-
-  window.addEventListener("touchmove", (e) => {
-    if (!isDragging) return;
-
-    const rect = wrapper.getBoundingClientRect();
-    let x = e.touches[0].clientX - rect.left;
-
-    x = Math.max(0, Math.min(x, rect.width));
-    target = (x / rect.width) * 100;
-  });
-
+  x = Math.max(0, Math.min(x, rect.width));
+  percent = (x / rect.width) * 100;
 });
+
+// MOBILE
+wrapper.addEventListener("touchstart", () => isDragging = true);
+window.addEventListener("touchend", () => isDragging = false);
+
+window.addEventListener("touchmove", (e) => {
+  if (!isDragging) return;
+
+  const rect = wrapper.getBoundingClientRect();
+  let x = e.touches[0].clientX - rect.left;
+
+  x = Math.max(0, Math.min(x, rect.width));
+  percent = (x / rect.width) * 100;
+});
+
+// EMAIL
+function sendEmail() {
+  const name = document.getElementById("name").value;
+  const email = document.getElementById("email").value;
+
+  if (!name || !email) {
+    alert("Please fill in all fields");
+    return;
+  }
+
+  window.location.href =
+    "mailto:pymnzmail@gmail.com?subject=Photo Restoration Request&body=Name: " +
+    name +
+    "%0AEmail: " +
+    email;
+}
 </script>
 
 </body>
