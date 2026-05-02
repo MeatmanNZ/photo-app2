@@ -38,44 +38,34 @@ body {
 }
 
 /* ===== SLIDER ===== */
-<div class="slider-wrapper" id="slider">
-
-  <!-- AFTER (bottom layer) -->
-  <img src="after1.jpg" class="after-img">
-
-  <!-- BEFORE (top layer) -->
-  <img src="before1.jpg" class="before-img" id="beforeImg">
-
-  <div class="handle" id="handle"></div>
-
-  <div class="label before-label">BEFORE</div>
-  <div class="label after-label">AFTER</div>
-
-</div>
-}
-
-/* Base image controls everything */
-.slider-wrapper img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-/* BEFORE overlay */
-.before-layer {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+.slider-wrapper {
+  position: relative;
+  max-width: 500px;
+  margin: 50px auto;
   overflow: hidden;
-  clip-path: inset(0 50% 0 0);
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Ensure perfect overlap */
-.before-layer img {
+/* Base images */
+.slider-wrapper img {
+  width: 100%;
+  display: block;
+}
+
+/* AFTER image */
+.after-img {
+  position: relative;
+  z-index: 1;
+}
+
+/* BEFORE image (top layer) */
+.before-img {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: 2;
+  clip-path: inset(0 50% 0 0);
 }
 
 /* HANDLE */
@@ -192,12 +182,10 @@ button {
   <div class="slider-wrapper" id="slider">
 
     <!-- AFTER -->
-    <img src="after1.jpg">
+    <img src="after1.jpg" class="after-img">
 
     <!-- BEFORE -->
-    <div class="before-layer" id="beforeLayer">
-      <img src="before1.jpg">
-    </div>
+    <img src="before1.jpg" class="before-img" id="beforeImg">
 
     <div class="handle" id="handle"></div>
 
@@ -237,7 +225,7 @@ button {
 
 <script>
 const slider = document.getElementById("slider");
-const beforeLayer = document.getElementById("beforeLayer");
+const beforeImg = document.getElementById("beforeImg");
 const handle = document.getElementById("handle");
 
 let isDragging = false;
@@ -251,7 +239,7 @@ function animate() {
 
     if (percent > 80 || percent < 20) direction *= -1;
 
-    beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+    beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
   }
   requestAnimationFrame(animate);
