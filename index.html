@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Restoration</title>
+<title>Photo Restoration – Free Preview</title>
 
 <style>
 body {
@@ -23,7 +23,6 @@ body {
 h1 { font-size: 2.2em; }
 h2 { margin-top: 50px; }
 
-/* HERO */
 .hero {
   background: white;
   padding: 50px 20px;
@@ -40,33 +39,38 @@ h2 { margin-top: 50px; }
   font-weight: bold;
 }
 
-/* SLIDER */
+/* ===== SLIDER ===== */
 .slider-container {
-  max-width: 650px;
+  max-width: 700px;
   margin: 50px auto;
 }
 
 .slider-wrapper {
   position: relative;
   width: 100%;
+  aspect-ratio: 4 / 3;
   overflow: hidden;
 }
 
+/* Both images fill container */
 .slider-image {
+  position: absolute;
   width: 100%;
-  display: block;
+  height: 100%;
+  object-fit: cover;
 }
 
-/* BEFORE overlay */
+/* BEFORE overlay (this gets "cut away") */
 .slider-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 50%;
+  height: 100%;
   overflow: hidden;
 }
 
-/* HANDLE */
+/* Handle */
 .slider-handle {
   position: absolute;
   top: 0;
@@ -74,8 +78,8 @@ h2 { margin-top: 50px; }
   width: 3px;
   height: 100%;
   background: white;
-  cursor: ew-resize;
   z-index: 10;
+  cursor: ew-resize;
 }
 
 .slider-handle::after {
@@ -90,7 +94,7 @@ h2 { margin-top: 50px; }
   transform: translateY(-50%);
 }
 
-/* LABELS */
+/* Labels */
 .label {
   position: absolute;
   top: 12px;
@@ -99,6 +103,7 @@ h2 { margin-top: 50px; }
   padding: 5px 10px;
   font-size: 12px;
   border-radius: 5px;
+  z-index: 20;
 }
 
 .before-label { left: 10px; }
@@ -115,42 +120,48 @@ h2 { margin-top: 50px; }
 
 <body>
 
+<!-- HERO -->
 <div class="hero">
   <div class="container">
     <h1>Bring Your Old Photos Back to Life</h1>
-    <p>Professional restoration with a FREE preview</p>
+    <p>Professional restoration with a FREE preview before you pay</p>
     <a href="#" class="cta">Upload Your Photo – FREE Preview</a>
+    <p>✔ No upfront cost ✔ Fast turnaround ✔ NZ-based</p>
   </div>
 </div>
 
+<!-- SLIDER -->
 <div class="container">
   <h2>See the Difference</h2>
 
   <div class="slider-container">
     <div class="slider-wrapper">
 
-      <!-- AFTER (revealed image underneath) -->
+      <!-- AFTER (restored image underneath) -->
       <img src="after1.jpg" class="slider-image">
 
-      <!-- BEFORE (overlay that gets removed) -->
+      <!-- BEFORE (overlay removed as you drag) -->
       <div class="slider-overlay">
         <img src="before1.jpg" class="slider-image">
       </div>
 
+      <!-- HANDLE -->
       <div class="slider-handle"></div>
 
+      <!-- LABELS -->
       <div class="label before-label">BEFORE</div>
       <div class="label after-label">AFTER</div>
 
     </div>
   </div>
-
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
+<!-- SCRIPT -->
 <script>
 document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
 
@@ -162,7 +173,7 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
   let target = 50;
   let current = 50;
 
-  // SMOOTH ANIMATION (slower movement)
+  // Smooth animation loop (controls speed)
   function animate() {
     current += (target - current) * 0.05; // smaller = slower
 
@@ -175,7 +186,7 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
   animate();
 
   // DESKTOP
-  handle.addEventListener("mousedown", () => isDragging = true);
+  wrapper.addEventListener("mousedown", () => isDragging = true);
   window.addEventListener("mouseup", () => isDragging = false);
 
   window.addEventListener("mousemove", (e) => {
@@ -189,7 +200,7 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
   });
 
   // MOBILE
-  handle.addEventListener("touchstart", () => isDragging = true);
+  wrapper.addEventListener("touchstart", () => isDragging = true);
   window.addEventListener("touchend", () => isDragging = false);
 
   window.addEventListener("touchmove", (e) => {
