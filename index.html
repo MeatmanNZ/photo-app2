@@ -239,20 +239,20 @@ function animate() {
       pause--;
     } else {
 
-      percent += direction * 0.21; // your speed
+      percent += direction * 0.21; // 👈 your chosen speed
 
       // RIGHT EDGE
       if (percent >= 100) {
         percent = 100;
         direction = -1;
-        pause = 60; // increase pause because speed is high
+        pause = 50; // 👈 tuned for this speed
       }
 
       // LEFT EDGE
       if (percent <= 0) {
         percent = 0;
         direction = 1;
-        pause = 60;
+        pause = 50;
       }
     }
 
