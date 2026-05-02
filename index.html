@@ -38,12 +38,20 @@ body {
 }
 
 /* ===== SLIDER ===== */
-.slider-wrapper {
-  position: relative;
-  display: inline-block; /* KEY FIX */
-  max-width: 100%;
-  overflow: hidden;
-  border-radius: 12px;
+<div class="slider-wrapper" id="slider">
+
+  <!-- AFTER (bottom layer) -->
+  <img src="after1.jpg" class="after-img">
+
+  <!-- BEFORE (top layer) -->
+  <img src="before1.jpg" class="before-img" id="beforeImg">
+
+  <div class="handle" id="handle"></div>
+
+  <div class="label before-label">BEFORE</div>
+  <div class="label after-label">AFTER</div>
+
+</div>
 }
 
 /* Base image controls everything */
