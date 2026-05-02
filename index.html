@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Restoration – Free Preview</title>
+<title>Photo Restoration</title>
 
 <style>
 body {
@@ -23,6 +23,12 @@ body {
 h1 { font-size: 2.2em; }
 h2 { margin-top: 50px; }
 
+/* HERO */
+.hero {
+  background: white;
+  padding: 50px 20px;
+}
+
 .cta {
   background: #007bff;
   color: white;
@@ -34,14 +40,9 @@ h2 { margin-top: 50px; }
   font-weight: bold;
 }
 
-.hero {
-  background: white;
-  padding: 50px 20px;
-}
-
 /* SLIDER */
 .slider-container {
-  max-width: 600px;
+  max-width: 650px;
   margin: 50px auto;
 }
 
@@ -56,6 +57,7 @@ h2 { margin-top: 50px; }
   display: block;
 }
 
+/* BEFORE overlay */
 .slider-overlay {
   position: absolute;
   top: 0;
@@ -64,11 +66,12 @@ h2 { margin-top: 50px; }
   overflow: hidden;
 }
 
+/* HANDLE */
 .slider-handle {
   position: absolute;
   top: 0;
   left: 50%;
-  width: 4px;
+  width: 3px;
   height: 100%;
   background: white;
   cursor: ew-resize;
@@ -79,7 +82,7 @@ h2 { margin-top: 50px; }
   content: '';
   position: absolute;
   top: 50%;
-  left: -10px;
+  left: -11px;
   width: 22px;
   height: 22px;
   background: #007bff;
@@ -90,8 +93,8 @@ h2 { margin-top: 50px; }
 /* LABELS */
 .label {
   position: absolute;
-  top: 10px;
-  background: rgba(0,0,0,0.6);
+  top: 12px;
+  background: rgba(0,0,0,0.65);
   color: white;
   padding: 5px 10px;
   font-size: 12px;
@@ -112,75 +115,43 @@ h2 { margin-top: 50px; }
 
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <div class="container">
     <h1>Bring Your Old Photos Back to Life</h1>
-    <p>Professional restoration with a FREE preview before you pay</p>
-    <a href="#upload" class="cta">Upload Your Photo – FREE Preview</a>
-    <p>✔ No upfront cost ✔ Fast turnaround ✔ NZ-based</p>
+    <p>Professional restoration with a FREE preview</p>
+    <a href="#" class="cta">Upload Your Photo – FREE Preview</a>
   </div>
 </div>
 
-<!-- SLIDERS -->
 <div class="container">
   <h2>See the Difference</h2>
 
-  <!-- SLIDER 1 -->
   <div class="slider-container">
     <div class="slider-wrapper">
+
+      <!-- AFTER (revealed image underneath) -->
       <img src="after1.jpg" class="slider-image">
+
+      <!-- BEFORE (overlay that gets removed) -->
       <div class="slider-overlay">
         <img src="before1.jpg" class="slider-image">
       </div>
-      <div class="slider-handle"></div>
-      <div class="label before-label">BEFORE</div>
-      <div class="label after-label">AFTER</div>
-    </div>
-  </div>
 
-  <!-- SLIDER 2 -->
-  <div class="slider-container">
-    <div class="slider-wrapper">
-      <img src="after2.jpg" class="slider-image">
-      <div class="slider-overlay">
-        <img src="before2.jpg" class="slider-image">
-      </div>
       <div class="slider-handle"></div>
+
       <div class="label before-label">BEFORE</div>
       <div class="label after-label">AFTER</div>
+
     </div>
   </div>
 
 </div>
 
-<!-- TRUST -->
-<div class="container">
-  <h2>Professional Restoration</h2>
-  <p>We repair damage, restore detail, and bring your photos back to life with natural, realistic results.</p>
-  <p>✔ Remove scratches & tears<br>✔ Restore faded colour<br>✔ Enhance clarity</p>
-</div>
-
-<!-- PRICING -->
-<div class="container">
-  <h2>Simple Pricing</h2>
-  <p><strong>$10–$50 NZD</strong> depending on damage</p>
-  <p>FREE preview before payment</p>
-</div>
-
-<!-- UPLOAD -->
-<div class="container" id="upload">
-  <h2>Upload Your Photo</h2>
-  <input type="file">
-</div>
-
-<!-- FOOTER -->
 <div class="footer">
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
 <script>
-// INIT ALL SLIDERS
 document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
 
   const overlay = wrapper.querySelector(".slider-overlay");
@@ -188,26 +159,22 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
 
   let isDragging = false;
 
-  // AUTO ANIMATE
-  let direction = 1;
-  let percent = 50;
+  let target = 50;
+  let current = 50;
 
-  function autoSlide() {
-    if (isDragging) return;
+  // SMOOTH ANIMATION (slower movement)
+  function animate() {
+    current += (target - current) * 0.05; // smaller = slower
 
-    percent += direction * 0.3;
+    overlay.style.width = current + "%";
+    handle.style.left = current + "%";
 
-    if (percent > 80 || percent < 20) direction *= -1;
-
-    overlay.style.width = percent + "%";
-    handle.style.left = percent + "%";
-
-    requestAnimationFrame(autoSlide);
+    requestAnimationFrame(animate);
   }
 
-  autoSlide();
+  animate();
 
-  // MOUSE
+  // DESKTOP
   handle.addEventListener("mousedown", () => isDragging = true);
   window.addEventListener("mouseup", () => isDragging = false);
 
@@ -218,14 +185,10 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
     let x = e.clientX - rect.left;
 
     x = Math.max(0, Math.min(x, rect.width));
-
-    percent = (x / rect.width) * 100;
-
-    overlay.style.width = percent + "%";
-    handle.style.left = percent + "%";
+    target = (x / rect.width) * 100;
   });
 
-  // TOUCH
+  // MOBILE
   handle.addEventListener("touchstart", () => isDragging = true);
   window.addEventListener("touchend", () => isDragging = false);
 
@@ -236,11 +199,7 @@ document.querySelectorAll(".slider-wrapper").forEach(wrapper => {
     let x = e.touches[0].clientX - rect.left;
 
     x = Math.max(0, Math.min(x, rect.width));
-
-    percent = (x / rect.width) * 100;
-
-    overlay.style.width = percent + "%";
-    handle.style.left = percent + "%";
+    target = (x / rect.width) * 100;
   });
 
 });
