@@ -235,25 +235,31 @@ let pause = 0;
 function animate() {
   if (!isDragging) {
 
-    if (pause > 0) {
-      pause--;
-    } else {
+let pause = 0;
 
-      percent += direction * 0.21; // 👈 your chosen speed
+function animate() {
+  if (!isDragging) {
+
+    if (pause <= 0) {
+
+      percent += direction * 0.21;
 
       // RIGHT EDGE
       if (percent >= 100) {
         percent = 100;
         direction = -1;
-        pause = 50; // 👈 tuned for this speed
+        pause = 40;
       }
 
       // LEFT EDGE
       if (percent <= 0) {
         percent = 0;
         direction = 1;
-        pause = 50;
+        pause = 40;
       }
+
+    } else {
+      pause--; // 👈 ALWAYS counts down
     }
 
     beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
