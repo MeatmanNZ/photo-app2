@@ -40,17 +40,17 @@ body {
 /* ===== SLIDER ===== */
 .slider-wrapper {
   position: relative;
-  max-width: 500px;
-  margin: 50px auto;
+  display: inline-block; /* KEY FIX */
+  max-width: 100%;
   overflow: hidden;
   border-radius: 12px;
-  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* AFTER image defines height */
+/* Base image controls everything */
 .slider-wrapper img {
-  width: 100%;
   display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 /* BEFORE overlay */
@@ -63,7 +63,7 @@ body {
   clip-path: inset(0 50% 0 0);
 }
 
-/* Perfect alignment */
+/* Ensure perfect overlap */
 .before-layer img {
   position: absolute;
   top: 0;
