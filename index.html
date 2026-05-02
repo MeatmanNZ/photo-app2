@@ -227,33 +227,28 @@ const handle = document.getElementById("handle");
 let isDragging = false;
 let percent = 50;
 let direction = 1;
+let pause = 0;   // 👈 ADD THIS LINE
 
 // AUTO ANIMATION
-function animate() {
-  if (!isDragging) {
-    percent += direction * 0.14;
-
-
-let pause = 0;
-
 function animate() {
   if (!isDragging) {
 
     if (pause > 0) {
       pause--;
     } else {
-      percent += direction * 0.03;
+
+      percent += direction * 0.03; // speed
 
       if (percent >= 100) {
         percent = 100;
         direction = -1;
-        pause = 40; // pause at edge
+        pause = 40; // 👈 pause at right edge
       }
 
       if (percent <= 0) {
         percent = 0;
         direction = 1;
-        pause = 40;
+        pause = 40; // 👈 pause at left edge
       }
     }
 
@@ -261,21 +256,6 @@ function animate() {
     handle.style.left = percent + "%";
   }
 
-  requestAnimationFrame(animate);
-}
-    if (percent >= 100) {
-  percent = 100;
-  direction = -1;
-}
-
-if (percent <= 0) {
-  percent = 0;
-  direction = 1;
-}
-
-    beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-    handle.style.left = percent + "%";
-  }
   requestAnimationFrame(animate);
 }
 animate();
