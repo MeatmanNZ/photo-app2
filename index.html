@@ -40,37 +40,34 @@ body {
 /* ===== SLIDER ===== */
 .slider-wrapper {
   position: relative;
-  max-width: 500px;   /* narrower for portrait */
+  max-width: 500px;
   margin: 50px auto;
-  aspect-ratio: 3 / 4; /* matches your image */
   overflow: hidden;
   border-radius: 12px;
-  background: #ddd;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Fill container properly */
+/* AFTER image defines height */
 .slider-wrapper img {
-  position: absolute;
   width: 100%;
-  height: 100%;
-  object-fit: cover; /* KEY CHANGE */
-}
-
-/* BOTH images aligned perfectly */
-.slider-wrapper img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+  display: block;
 }
 
 /* BEFORE overlay */
 .before-layer {
   position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
-  height: 100%;
+  overflow: hidden;
   clip-path: inset(0 50% 0 0);
-  z-index: 2;
+}
+
+/* Perfect alignment */
+.before-layer img {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* HANDLE */
@@ -112,7 +109,7 @@ body {
 .before-label { left: 10px; }
 .after-label { right: 10px; }
 
-/* PRICING */
+/* ===== PRICING ===== */
 .pricing {
   background: white;
   padding: 50px 20px;
@@ -126,7 +123,7 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* UPLOAD */
+/* ===== UPLOAD ===== */
 .upload-card {
   max-width: 520px;
   margin: 50px auto;
@@ -239,7 +236,7 @@ let isDragging = false;
 let percent = 50;
 let direction = 1;
 
-// AUTO SLIDE
+// AUTO ANIMATION
 function animate() {
   if (!isDragging) {
     percent += direction * 0.05;
