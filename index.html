@@ -233,6 +233,36 @@ function animate() {
   if (!isDragging) {
     percent += direction * 0.14;
 
+
+let pause = 0;
+
+function animate() {
+  if (!isDragging) {
+
+    if (pause > 0) {
+      pause--;
+    } else {
+      percent += direction * 0.03;
+
+      if (percent >= 100) {
+        percent = 100;
+        direction = -1;
+        pause = 40; // pause at edge
+      }
+
+      if (percent <= 0) {
+        percent = 0;
+        direction = 1;
+        pause = 40;
+      }
+    }
+
+    beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+    handle.style.left = percent + "%";
+  }
+
+  requestAnimationFrame(animate);
+}
     if (percent >= 100) {
   percent = 100;
   direction = -1;
