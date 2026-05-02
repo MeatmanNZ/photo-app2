@@ -233,7 +233,15 @@ function animate() {
   if (!isDragging) {
     percent += direction * 0.05;
 
-    if (percent > 80 || percent < 20) direction *= -1;
+    if (percent >= 100) {
+  percent = 100;
+  direction = -1;
+}
+
+if (percent <= 0) {
+  percent = 0;
+  direction = 1;
+}
 
     beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
