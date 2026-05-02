@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Restoration</title>
+<title>Photo Restoration – Free Preview</title>
 
 <style>
 body {
@@ -11,19 +11,23 @@ body {
   font-family: Arial, sans-serif;
   background: #f4f6f9;
   color: #222;
-  text-align: center;
 }
 
 .container {
   max-width: 1000px;
   margin: auto;
   padding: 20px;
+  text-align: center;
 }
 
 /* HERO */
 .hero {
   background: white;
-  padding: 50px 20px;
+  padding: 60px 20px;
+}
+
+.hero h1 {
+  font-size: 2.4em;
 }
 
 .cta {
@@ -33,24 +37,26 @@ body {
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
-  margin-top: 15px;
+  margin-top: 20px;
   font-weight: bold;
 }
 
 /* ===== SLIDER ===== */
 .slider-container {
-  max-width: 700px;
-  margin: 50px auto;
+  max-width: 750px;
+  margin: 60px auto;
 }
 
 .slider-wrapper {
   position: relative;
   width: 100%;
-  height: 400px; /* fixed height = no shrink */
+  height: 420px;
   overflow: hidden;
-  border-radius: 10px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
+/* Images fill perfectly */
 .slider-wrapper img {
   position: absolute;
   width: 100%;
@@ -58,19 +64,12 @@ body {
   object-fit: cover;
 }
 
-/* AFTER (revealed underneath) */
-.after-img {
-  z-index: 1;
-}
-
-/* BEFORE overlay */
-.overlay {
+/* BEFORE layer (top) */
+.before-layer {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 50%;
+  width: 100%;
   height: 100%;
-  overflow: hidden;
+  clip-path: inset(0 50% 0 0); /* this is the magic */
   z-index: 2;
 }
 
@@ -104,47 +103,68 @@ body {
   top: 12px;
   background: rgba(0,0,0,0.6);
   color: white;
-  padding: 5px 10px;
+  padding: 6px 10px;
   font-size: 12px;
-  border-radius: 5px;
+  border-radius: 6px;
   z-index: 4;
 }
 
-.before { left: 10px; }
-.after { right: 10px; }
+.before-label { left: 12px; }
+.after-label { right: 12px; }
 
-/* ===== UPLOAD SECTION ===== */
-.upload-card {
-  max-width: 500px;
-  margin: 50px auto;
+/* ===== PRICING ===== */
+.pricing {
   background: white;
+  padding: 50px 20px;
+  margin-top: 40px;
+}
+
+.price-box {
+  background: #f9fbff;
   padding: 30px;
   border-radius: 12px;
+  display: inline-block;
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+.price-box h3 {
+  margin: 0;
+  font-size: 1.8em;
+}
+
+/* ===== UPLOAD ===== */
+.upload-card {
+  max-width: 520px;
+  margin: 50px auto;
+  background: white;
+  padding: 35px;
+  border-radius: 14px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
 .upload-box {
   border: 2px dashed #ccc;
   padding: 25px;
   margin-bottom: 20px;
-  border-radius: 8px;
+  border-radius: 10px;
 }
 
 input {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   margin: 10px 0;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid #ccc;
+  font-size: 15px;
 }
 
 button {
   width: 100%;
-  padding: 14px;
+  padding: 16px;
   background: #007bff;
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
@@ -155,10 +175,11 @@ button:hover {
 }
 
 .footer {
-  margin-top: 50px;
+  margin-top: 60px;
   padding: 20px;
   background: #222;
   color: white;
+  text-align: center;
 }
 </style>
 </head>
@@ -181,17 +202,31 @@ button:hover {
   <div class="slider-container">
     <div class="slider-wrapper" id="slider">
 
-      <img src="after1.jpg" class="after-img">
+      <!-- AFTER -->
+      <img src="after1.jpg">
 
-      <div class="overlay" id="overlay">
+      <!-- BEFORE -->
+      <div class="before-layer" id="beforeLayer">
         <img src="before1.jpg">
       </div>
 
       <div class="handle" id="handle"></div>
 
-      <div class="label before">BEFORE</div>
-      <div class="label after">AFTER</div>
+      <div class="label before-label">BEFORE</div>
+      <div class="label after-label">AFTER</div>
 
+    </div>
+  </div>
+</div>
+
+<!-- PRICING -->
+<div class="pricing">
+  <div class="container">
+    <h2>Simple Pricing</h2>
+    <div class="price-box">
+      <h3>$10 – $50 NZD</h3>
+      <p>Depending on damage</p>
+      <p><strong>FREE preview before payment</strong></p>
     </div>
   </div>
 </div>
@@ -216,13 +251,11 @@ button:hover {
 
 <script>
 const slider = document.getElementById("slider");
-const overlay = document.getElementById("overlay");
+const beforeLayer = document.getElementById("beforeLayer");
 const handle = document.getElementById("handle");
 
 let isDragging = false;
-let percent = 50;
 
-// DRAG START
 slider.addEventListener("mousedown", () => isDragging = true);
 window.addEventListener("mouseup", () => isDragging = false);
 
@@ -233,13 +266,13 @@ window.addEventListener("mousemove", (e) => {
   let x = e.clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
-  percent = (x / rect.width) * 100;
+  const percent = (x / rect.width) * 100;
 
-  overlay.style.width = percent + "%";
+  beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
   handle.style.left = percent + "%";
 });
 
-// TOUCH
+/* mobile */
 slider.addEventListener("touchstart", () => isDragging = true);
 window.addEventListener("touchend", () => isDragging = false);
 
@@ -250,9 +283,9 @@ window.addEventListener("touchmove", (e) => {
   let x = e.touches[0].clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
-  percent = (x / rect.width) * 100;
+  const percent = (x / rect.width) * 100;
 
-  overlay.style.width = percent + "%";
+  beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
   handle.style.left = percent + "%";
 });
 </script>
