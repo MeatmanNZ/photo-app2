@@ -235,37 +235,18 @@ let pause = 0;
 function animate() {
   if (!isDragging) {
 
-    // Always reduce pause first
-    if (pause > 0) {
-      pause--;
-    } else {
+    percent += direction * 0.21;
 
-      percent += direction * 0.21;
-
-      // Hit right edge
-      if (percent >= 100) {
-        percent = 100;
-        direction = -1;
-        pause = 30;
-      }
-
-      // Hit left edge
-      if (percent <= 0) {
-        percent = 0;
-        direction = 1;
-        pause = 30;
-      }
+    if (percent >= 100 || percent <= 0) {
+      direction *= -1;
     }
 
-    // ALWAYS update visuals
     beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
   }
 
   requestAnimationFrame(animate);
 }
-
-// Make sure this is here
 animate();
 
 // DRAG
