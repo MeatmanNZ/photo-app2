@@ -20,7 +20,6 @@ body {
   text-align: center;
 }
 
-/* HERO */
 .hero {
   background: white;
   padding: 60px 20px;
@@ -37,7 +36,7 @@ body {
   font-weight: bold;
 }
 
-/* ===== SLIDER ===== */
+/* SLIDER */
 .slider-wrapper {
   position: relative;
   max-width: 500px;
@@ -47,13 +46,11 @@ body {
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
 }
 
-/* Base image (AFTER) */
 .after-img {
   width: 100%;
   display: block;
 }
 
-/* BEFORE image (overlay) */
 .before-img {
   position: absolute;
   top: 0;
@@ -65,7 +62,6 @@ body {
   z-index: 2;
 }
 
-/* HANDLE */
 .handle {
   position: absolute;
   top: 0;
@@ -89,22 +85,7 @@ body {
   transform: translateY(-50%);
 }
 
-/* LABELS */
-.label {
-  position: absolute;
-  top: 10px;
-  background: rgba(0,0,0,0.6);
-  color: white;
-  padding: 5px 10px;
-  font-size: 12px;
-  border-radius: 5px;
-  z-index: 4;
-}
-
-.before-label { left: 10px; }
-.after-label { right: 10px; }
-
-/* ===== PRICING ===== */
+/* PRICING */
 .pricing {
   background: white;
   padding: 50px 20px;
@@ -115,10 +96,9 @@ body {
   padding: 30px;
   border-radius: 12px;
   display: inline-block;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* ===== UPLOAD ===== */
+/* UPLOAD */
 .upload-card {
   max-width: 520px;
   margin: 50px auto;
@@ -154,7 +134,6 @@ button {
   cursor: pointer;
 }
 
-/* FOOTER */
 .footer {
   margin-top: 60px;
   padding: 20px;
@@ -178,16 +157,9 @@ button {
   <h2>See the Difference</h2>
 
   <div class="slider-wrapper" id="slider">
-
     <img src="after1.jpg" class="after-img">
-
     <img src="before1.jpg" class="before-img" id="beforeImg">
-
     <div class="handle" id="handle"></div>
-
-    <div class="label before-label">BEFORE</div>
-    <div class="label after-label">AFTER</div>
-
   </div>
 </div>
 
@@ -202,7 +174,7 @@ button {
   </div>
 </div>
 
-<form action="https://formspree.io/f/mojrvbal" method="POST" enctype="multipart/form-data" class="upload-card">
+<form action="https://formspree.io/f/mojrvbal" method="POST" enctype="multipart/form-data" class="upload-card" id="upload">
 
   <h2>Upload Your Photo</h2>
 
@@ -217,9 +189,6 @@ button {
 
 </form>
 
-
-</div>
-
 <div class="footer">
   <p>© 2026 Preserve Your Memories</p>
 </div>
@@ -229,17 +198,12 @@ const slider = document.getElementById("slider");
 const beforeImg = document.getElementById("beforeImg");
 const handle = document.getElementById("handle");
 
-slider isDragging = false;
-slider percent = 50;
-slider direction = 1;
-slider pause = 0;   // 👈 ADD THIS LINE
-
-// AUTO ANIMATION
-
+let isDragging = false;
+let percent = 50;
+let direction = 1;
 
 function animate() {
   if (!isDragging) {
-
     percent += direction * 0.21;
 
     if (percent >= 100 || percent <= 0) {
@@ -255,7 +219,7 @@ function animate() {
 
 animate();
 
-// DRAG
+// drag
 slider.addEventListener("mousedown", () => isDragging = true);
 window.addEventListener("mouseup", () => isDragging = false);
 
@@ -263,13 +227,13 @@ window.addEventListener("mousemove", (e) => {
   if (!isDragging) return;
 
   const rect = slider.getBoundingClientRect();
-  slider x = e.clientX - rect.left;
+  let x = e.clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
 });
 
-// TOUCH
+// touch
 slider.addEventListener("touchstart", () => isDragging = true);
 window.addEventListener("touchend", () => isDragging = false);
 
@@ -277,25 +241,12 @@ window.addEventListener("touchmove", (e) => {
   if (!isDragging) return;
 
   const rect = slider.getBoundingClientRect();
-  slider x = e.touches[0].clientX - rect.left;
+  let x = e.touches[0].clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
 });
+</script>
 
-<form action="https://formspree.io/f/mojrvbal" method="POST" enctype="multipart/form-data" class="upload-card">
-
-  <h2>Upload Your Photo</h2>
-
-  <div class="upload-box">
-    <input type="file" name="photo" required>
-  </div>
-
-  <input type="text" name="name" placeholder="Your Name" required>
-  <input type="email" name="email" placeholder="Your Email" required>
-
-  <button type="submit">Submit Request</button>
-
-</form>
 </body>
 </html>
