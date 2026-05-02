@@ -230,6 +230,8 @@ let direction = 1;
 let pause = 0;   // 👈 ADD THIS LINE
 
 // AUTO ANIMATION
+let pause = 0;
+
 function animate() {
   if (!isDragging) {
 
@@ -237,18 +239,20 @@ function animate() {
       pause--;
     } else {
 
-      percent += direction * 0.28; // speed
+      percent += direction * 0.28; // your speed
 
+      // RIGHT EDGE
       if (percent >= 100) {
         percent = 100;
         direction = -1;
-        pause = 40; // 👈 pause at right edge
+        pause = 60; // increase pause because speed is high
       }
 
+      // LEFT EDGE
       if (percent <= 0) {
         percent = 0;
         direction = 1;
-        pause = 40; // 👈 pause at left edge
+        pause = 60;
       }
     }
 
