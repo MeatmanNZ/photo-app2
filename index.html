@@ -282,24 +282,20 @@ window.addEventListener("touchmove", (e) => {
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
 });
-</script>
 
-<script>
-function sendEmail() {
-  const name = document.querySelector('input[placeholder="Your Name"]').value;
-  const email = document.querySelector('input[placeholder="Your Email"]').value;
+<form action="https://formspree.io/f/mojrvbal" method="POST" enctype="multipart/form-data" class="upload-card">
 
-  if (!name || !email) {
-    alert("Please fill in your name and email");
-    return;
-  }
+  <h2>Upload Your Photo</h2>
 
-  const subject = "Photo Restoration Request";
-  const body = `Name: ${name}%0AEmail: ${email}`;
+  <div class="upload-box">
+    <input type="file" name="photo" required>
+  </div>
 
-  window.location.href = `mailto:pymnzmail@gmail.com?subject=${subject}&body=${body}`;
-}
-</script>
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
 
+  <button type="submit">Submit Request</button>
+
+</form>
 </body>
 </html>
