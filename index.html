@@ -13,6 +13,7 @@ body {
   color: #222;
 }
 
+/* Layout */
 .container {
   max-width: 1000px;
   margin: auto;
@@ -50,26 +51,27 @@ body {
 .slider-wrapper {
   position: relative;
   width: 100%;
-  height: 420px;
+  height: 520px; /* Taller for full portrait photos */
   overflow: hidden;
   border-radius: 12px;
+  background: #ddd;
   box-shadow: 0 10px 30px rgba(0,0,0,0.1);
 }
 
-/* Images fill perfectly */
+/* Images */
 .slider-wrapper img {
   position: absolute;
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* SHOW FULL IMAGE */
 }
 
-/* BEFORE layer (top) */
+/* BEFORE layer */
 .before-layer {
   position: absolute;
   width: 100%;
   height: 100%;
-  clip-path: inset(0 50% 0 0); /* this is the magic */
+  clip-path: inset(0 50% 0 0);
   z-index: 2;
 }
 
@@ -116,7 +118,6 @@ body {
 .pricing {
   background: white;
   padding: 50px 20px;
-  margin-top: 40px;
 }
 
 .price-box {
@@ -255,7 +256,28 @@ const beforeLayer = document.getElementById("beforeLayer");
 const handle = document.getElementById("handle");
 
 let isDragging = false;
+let percent = 50;
+let direction = 1;
 
+// AUTO SLIDE
+function animate() {
+  if (!isDragging) {
+    percent += direction * 0.08;
+
+    if (percent > 80 || percent < 20) {
+      direction *= -1;
+    }
+
+    beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+    handle.style.left = percent + "%";
+  }
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// DRAG
 slider.addEventListener("mousedown", () => isDragging = true);
 window.addEventListener("mouseup", () => isDragging = false);
 
@@ -266,13 +288,10 @@ window.addEventListener("mousemove", (e) => {
   let x = e.clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
-  const percent = (x / rect.width) * 100;
-
-  beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-  handle.style.left = percent + "%";
+  percent = (x / rect.width) * 100;
 });
 
-/* mobile */
+// TOUCH
 slider.addEventListener("touchstart", () => isDragging = true);
 window.addEventListener("touchend", () => isDragging = false);
 
@@ -283,10 +302,7 @@ window.addEventListener("touchmove", (e) => {
   let x = e.touches[0].clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
-  const percent = (x / rect.width) * 100;
-
-  beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
-  handle.style.left = percent + "%";
+  percent = (x / rect.width) * 100;
 });
 </script>
 
