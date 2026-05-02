@@ -38,42 +38,31 @@ body {
 }
 
 /* ===== SLIDER ===== */
-.slider-container {
-  margin: 60px auto;
-}
-
-/* IMPORTANT: no fixed height */
 .slider-wrapper {
   position: relative;
   max-width: 600px;
-  margin: auto;
+  margin: 50px auto;
+  aspect-ratio: 3 / 4;
   overflow: hidden;
   border-radius: 12px;
   background: #ddd;
 }
 
-/* images scale naturally */
+/* BOTH images aligned perfectly */
 .slider-wrapper img {
+  position: absolute;
   width: 100%;
-  height: auto;
-  display: block;
+  height: 100%;
+  object-fit: contain;
 }
 
-/* BEFORE layer (top layer) */
+/* BEFORE overlay */
 .before-layer {
   position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
-  overflow: hidden;
+  height: 100%;
   clip-path: inset(0 50% 0 0);
-}
-
-/* make sure images align perfectly */
-.before-layer img {
-  position: absolute;
-  top: 0;
-  left: 0;
+  z-index: 2;
 }
 
 /* HANDLE */
@@ -115,7 +104,7 @@ body {
 .before-label { left: 10px; }
 .after-label { right: 10px; }
 
-/* ===== PRICING ===== */
+/* PRICING */
 .pricing {
   background: white;
   padding: 50px 20px;
@@ -129,7 +118,7 @@ body {
   box-shadow: 0 10px 25px rgba(0,0,0,0.08);
 }
 
-/* ===== UPLOAD ===== */
+/* UPLOAD */
 .upload-card {
   max-width: 520px;
   margin: 50px auto;
@@ -187,23 +176,21 @@ button {
 <div class="container">
   <h2>See the Difference</h2>
 
-  <div class="slider-container">
-    <div class="slider-wrapper" id="slider">
+  <div class="slider-wrapper" id="slider">
 
-      <!-- AFTER -->
-      <img src="after1.jpg">
+    <!-- AFTER -->
+    <img src="after1.jpg">
 
-      <!-- BEFORE -->
-      <div class="before-layer" id="beforeLayer">
-        <img src="before1.jpg">
-      </div>
-
-      <div class="handle" id="handle"></div>
-
-      <div class="label before-label">BEFORE</div>
-      <div class="label after-label">AFTER</div>
-
+    <!-- BEFORE -->
+    <div class="before-layer" id="beforeLayer">
+      <img src="before1.jpg">
     </div>
+
+    <div class="handle" id="handle"></div>
+
+    <div class="label before-label">BEFORE</div>
+    <div class="label after-label">AFTER</div>
+
   </div>
 </div>
 
@@ -247,19 +234,15 @@ let direction = 1;
 // AUTO SLIDE
 function animate() {
   if (!isDragging) {
-    percent += direction * 0.06;
+    percent += direction * 0.05;
 
-    if (percent > 80 || percent < 20) {
-      direction *= -1;
-    }
+    if (percent > 80 || percent < 20) direction *= -1;
 
     beforeLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
   }
-
   requestAnimationFrame(animate);
 }
-
 animate();
 
 // DRAG
