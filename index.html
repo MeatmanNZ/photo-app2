@@ -235,39 +235,37 @@ let pause = 0;
 function animate() {
   if (!isDragging) {
 
-let pause = 0;
-
-function animate() {
-  if (!isDragging) {
-
-    if (pause <= 0) {
+    // Always reduce pause first
+    if (pause > 0) {
+      pause--;
+    } else {
 
       percent += direction * 0.21;
 
-      // RIGHT EDGE
+      // Hit right edge
       if (percent >= 100) {
         percent = 100;
         direction = -1;
-        pause = 40;
+        pause = 30;
       }
 
-      // LEFT EDGE
+      // Hit left edge
       if (percent <= 0) {
         percent = 0;
         direction = 1;
-        pause = 40;
+        pause = 30;
       }
-
-    } else {
-      pause--; // 👈 ALWAYS counts down
     }
 
+    // ALWAYS update visuals
     beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
   }
 
   requestAnimationFrame(animate);
 }
+
+// Make sure this is here
 animate();
 
 // DRAG
