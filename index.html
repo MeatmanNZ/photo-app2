@@ -3,26 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Restoration – Free Preview</title>
+<title>Photo Restoration</title>
 
 <style>
 body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #f4f6f9;
-  text-align: center;
   color: #222;
+  text-align: center;
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   padding: 20px;
 }
 
-h1 { font-size: 2.2em; }
-h2 { margin-top: 50px; }
-
+/* HERO */
 .hero {
   background: white;
   padding: 50px 20px;
@@ -31,11 +29,11 @@ h2 { margin-top: 50px; }
 .cta {
   background: #007bff;
   color: white;
-  padding: 15px 25px;
+  padding: 14px 28px;
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
-  margin: 15px 0;
+  margin-top: 15px;
   font-weight: bold;
 }
 
@@ -48,46 +46,53 @@ h2 { margin-top: 50px; }
 .slider-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
+  height: 400px; /* fixed height = no shrink */
   overflow: hidden;
+  border-radius: 10px;
 }
 
-.slider-image {
+.slider-wrapper img {
   position: absolute;
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
+/* AFTER (revealed underneath) */
+.after-img {
+  z-index: 1;
+}
+
 /* BEFORE overlay */
-.slider-overlay {
+.overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 50%;
   height: 100%;
   overflow: hidden;
+  z-index: 2;
 }
 
 /* HANDLE */
-.slider-handle {
+.handle {
   position: absolute;
   top: 0;
   left: 50%;
   width: 3px;
   height: 100%;
   background: white;
-  z-index: 10;
+  z-index: 3;
   cursor: ew-resize;
 }
 
-.slider-handle::after {
+.handle::after {
   content: '';
   position: absolute;
   top: 50%;
-  left: -11px;
-  width: 22px;
-  height: 22px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
   background: #007bff;
   border-radius: 50%;
   transform: translateY(-50%);
@@ -97,30 +102,63 @@ h2 { margin-top: 50px; }
 .label {
   position: absolute;
   top: 12px;
-  background: rgba(0,0,0,0.65);
+  background: rgba(0,0,0,0.6);
   color: white;
   padding: 5px 10px;
   font-size: 12px;
   border-radius: 5px;
-  z-index: 20;
+  z-index: 4;
 }
 
-.before-label { left: 10px; }
-.after-label { right: 10px; }
+.before { left: 10px; }
+.after { right: 10px; }
 
-/* UPLOAD */
+/* ===== UPLOAD SECTION ===== */
+.upload-card {
+  max-width: 500px;
+  margin: 50px auto;
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
 .upload-box {
   border: 2px dashed #ccc;
-  padding: 20px;
-  background: white;
-  margin: 20px 0;
+  padding: 25px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+}
+
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button {
+  width: 100%;
+  padding: 14px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
 }
 
 .footer {
+  margin-top: 50px;
+  padding: 20px;
   background: #222;
   color: white;
-  padding: 20px;
-  margin-top: 40px;
 }
 </style>
 </head>
@@ -133,7 +171,6 @@ h2 { margin-top: 50px; }
     <h1>Bring Your Old Photos Back to Life</h1>
     <p>Professional restoration with a FREE preview before you pay</p>
     <a href="#upload" class="cta">Upload Your Photo – FREE Preview</a>
-    <p>✔ No upfront cost ✔ Fast turnaround ✔ NZ-based</p>
   </div>
 </div>
 
@@ -144,118 +181,80 @@ h2 { margin-top: 50px; }
   <div class="slider-container">
     <div class="slider-wrapper" id="slider">
 
-      <!-- AFTER (this is revealed) -->
-      <img src="after1.jpg" class="slider-image">
+      <img src="after1.jpg" class="after-img">
 
-      <!-- BEFORE (this gets removed as you slide) -->
-      <div class="slider-overlay" id="overlay">
-        <img src="before1.jpg" class="slider-image">
+      <div class="overlay" id="overlay">
+        <img src="before1.jpg">
       </div>
 
-      <div class="slider-handle" id="handle"></div>
+      <div class="handle" id="handle"></div>
 
-      <div class="label before-label">BEFORE</div>
-      <div class="label after-label">AFTER</div>
+      <div class="label before">BEFORE</div>
+      <div class="label after">AFTER</div>
 
     </div>
   </div>
 </div>
 
-<!-- PRICING -->
-<div class="container">
-  <h2>Simple Pricing</h2>
-  <p><strong>$10–$50 NZD</strong> depending on damage</p>
-  <p>FREE preview before payment</p>
-</div>
-
 <!-- UPLOAD -->
-<div class="container" id="upload">
+<div class="upload-card" id="upload">
   <h2>Upload Your Photo</h2>
 
   <div class="upload-box">
-    <input type="file" id="fileInput">
+    <input type="file">
   </div>
 
-  <input type="text" id="name" placeholder="Your Name"><br>
-  <input type="email" id="email" placeholder="Your Email"><br>
+  <input type="text" placeholder="Your Name">
+  <input type="email" placeholder="Your Email">
 
-  <button class="cta" onclick="sendEmail()">Submit Request</button>
+  <button>Submit Request</button>
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
   <p>© 2026 Preserve Your Memories</p>
 </div>
 
 <script>
-const wrapper = document.getElementById("slider");
+const slider = document.getElementById("slider");
 const overlay = document.getElementById("overlay");
 const handle = document.getElementById("handle");
 
 let isDragging = false;
 let percent = 50;
-let direction = 1;
 
-// AUTO ANIMATION (slow movement)
-function autoSlide() {
-  if (!isDragging) {
-    percent += direction * 0.1;
-
-    if (percent > 80 || percent < 20) direction *= -1;
-
-    overlay.style.width = percent + "%";
-    handle.style.left = percent + "%";
-  }
-
-  requestAnimationFrame(autoSlide);
-}
-
-autoSlide();
-
-// DRAG
-wrapper.addEventListener("mousedown", () => isDragging = true);
+// DRAG START
+slider.addEventListener("mousedown", () => isDragging = true);
 window.addEventListener("mouseup", () => isDragging = false);
 
 window.addEventListener("mousemove", (e) => {
   if (!isDragging) return;
 
-  const rect = wrapper.getBoundingClientRect();
+  const rect = slider.getBoundingClientRect();
   let x = e.clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
+
+  overlay.style.width = percent + "%";
+  handle.style.left = percent + "%";
 });
 
-// MOBILE
-wrapper.addEventListener("touchstart", () => isDragging = true);
+// TOUCH
+slider.addEventListener("touchstart", () => isDragging = true);
 window.addEventListener("touchend", () => isDragging = false);
 
 window.addEventListener("touchmove", (e) => {
   if (!isDragging) return;
 
-  const rect = wrapper.getBoundingClientRect();
+  const rect = slider.getBoundingClientRect();
   let x = e.touches[0].clientX - rect.left;
 
   x = Math.max(0, Math.min(x, rect.width));
   percent = (x / rect.width) * 100;
+
+  overlay.style.width = percent + "%";
+  handle.style.left = percent + "%";
 });
-
-// EMAIL
-function sendEmail() {
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-
-  if (!name || !email) {
-    alert("Please fill in all fields");
-    return;
-  }
-
-  window.location.href =
-    "mailto:pymnzmail@gmail.com?subject=Photo Restoration Request&body=Name: " +
-    name +
-    "%0AEmail: " +
-    email;
-}
 </script>
 
 </body>
