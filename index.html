@@ -202,17 +202,22 @@ button {
   </div>
 </div>
 
-<div class="upload-card" id="upload">
+<form action="https://formspree.io/f/mojrvbal" method="POST" enctype="multipart/form-data" class="upload-card">
+
   <h2>Upload Your Photo</h2>
 
   <div class="upload-box">
-    <input type="file">
+    <input type="file" name="photo" required>
   </div>
 
-  <input type="text" placeholder="Your Name">
-  <input type="email" placeholder="Your Email">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
 
-  <button onclick="sendEmail()">Submit Request</button>
+  <button type="submit">Submit Request</button>
+
+</form>
+
+
 </div>
 
 <div class="footer">
