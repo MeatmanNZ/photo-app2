@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Photo Restoration – Free Preview</title>
+<title>Restore Your Old Photos – Free Preview</title>
 
 <style>
 body {
@@ -14,7 +14,7 @@ body {
 }
 
 .container {
-  max-width: 900px;
+  max-width: 1000px;
   margin: auto;
   padding: 20px;
   text-align: center;
@@ -22,25 +22,29 @@ body {
 
 .hero {
   background: white;
-  padding: 60px 20px;
+  padding: 70px 20px;
+}
+
+.hero h1 {
+  font-size: 2.2em;
 }
 
 .cta {
   background: #007bff;
   color: white;
-  padding: 14px 28px;
+  padding: 16px 30px;
   border-radius: 8px;
   text-decoration: none;
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 25px;
   font-weight: bold;
 }
 
 /* SLIDER */
 .slider-wrapper {
   position: relative;
-  max-width: 500px;
-  margin: 50px auto;
+  max-width: 420px;
+  margin: 40px auto;
   overflow: hidden;
   border-radius: 12px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.15);
@@ -59,7 +63,6 @@ body {
   height: 100%;
   object-fit: cover;
   clip-path: inset(0 50% 0 0);
-  z-index: 2;
 }
 
 .handle {
@@ -69,8 +72,6 @@ body {
   width: 3px;
   height: 100%;
   background: white;
-  z-index: 3;
-  cursor: ew-resize;
 }
 
 .handle::after {
@@ -88,12 +89,12 @@ body {
 /* PRICING */
 .pricing {
   background: white;
-  padding: 50px 20px;
+  padding: 60px 20px;
 }
 
 .price-box {
   background: #f9fbff;
-  padding: 30px;
+  padding: 35px;
   border-radius: 12px;
   display: inline-block;
 }
@@ -101,16 +102,16 @@ body {
 /* UPLOAD */
 .upload-card {
   max-width: 520px;
-  margin: 50px auto;
+  margin: 60px auto;
   background: white;
-  padding: 35px;
+  padding: 40px;
   border-radius: 14px;
   box-shadow: 0 12px 30px rgba(0,0,0,0.1);
 }
 
 .upload-box {
   border: 2px dashed #ccc;
-  padding: 25px;
+  padding: 30px;
   margin-bottom: 20px;
   border-radius: 10px;
 }
@@ -147,20 +148,36 @@ button {
 
 <div class="hero">
   <div class="container">
-    <h1>Bring Your Old Photos Back to Life</h1>
+    <h1>Restore Your Old Photos to Life</h1>
     <p>Professional restoration with a FREE preview before you pay</p>
-    <a href="#upload" class="cta">Upload Your Photo – FREE Preview</a>
+    <a href="#upload" class="cta">Get Your Free Preview</a>
   </div>
 </div>
 
 <div class="container">
-  <h2>See the Difference</h2>
+  <h2>Real Results</h2>
 
-  <div class="slider-wrapper" id="slider">
+  <!-- SLIDER 1 -->
+  <div class="slider-wrapper">
     <img src="after1.jpg" class="after-img">
-    <img src="before1.jpg" class="before-img" id="beforeImg">
-    <div class="handle" id="handle"></div>
+    <img src="before1.jpg" class="before-img">
+    <div class="handle"></div>
   </div>
+
+  <!-- SLIDER 2 -->
+  <div class="slider-wrapper">
+    <img src="after2.jpg" class="after-img">
+    <img src="2.jpg" class="before-img">
+    <div class="handle"></div>
+  </div>
+
+  <!-- SLIDER 3 -->
+  <div class="slider-wrapper">
+    <img src="after3.png" class="after-img">
+    <img src="before3.png" class="before-img">
+    <div class="handle"></div>
+  </div>
+
 </div>
 
 <div class="pricing">
@@ -185,7 +202,7 @@ button {
   <input type="text" name="name" placeholder="Your Name" required>
   <input type="email" name="email" placeholder="Your Email" required>
 
-  <button type="submit">Submit Request</button>
+  <button type="submit">Get Free Preview</button>
 
 </form>
 
@@ -194,16 +211,16 @@ button {
 </div>
 
 <script>
-const slider = document.getElementById("slider");
-const beforeImg = document.getElementById("beforeImg");
-const handle = document.getElementById("handle");
+const sliders = document.querySelectorAll(".slider-wrapper");
 
-let isDragging = false;
-let percent = 50;
-let direction = 1;
+sliders.forEach(slider => {
+  const beforeImg = slider.querySelector(".before-img");
+  const handle = slider.querySelector(".handle");
 
-function animate() {
-  if (!isDragging) {
+  let percent = 50;
+  let direction = 1;
+
+  function animate() {
     percent += direction * 0.21;
 
     if (percent >= 100 || percent <= 0) {
@@ -212,39 +229,11 @@ function animate() {
 
     beforeImg.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
     handle.style.left = percent + "%";
+
+    requestAnimationFrame(animate);
   }
 
-  requestAnimationFrame(animate);
-}
-
-animate();
-
-// drag
-slider.addEventListener("mousedown", () => isDragging = true);
-window.addEventListener("mouseup", () => isDragging = false);
-
-window.addEventListener("mousemove", (e) => {
-  if (!isDragging) return;
-
-  const rect = slider.getBoundingClientRect();
-  let x = e.clientX - rect.left;
-
-  x = Math.max(0, Math.min(x, rect.width));
-  percent = (x / rect.width) * 100;
-});
-
-// touch
-slider.addEventListener("touchstart", () => isDragging = true);
-window.addEventListener("touchend", () => isDragging = false);
-
-window.addEventListener("touchmove", (e) => {
-  if (!isDragging) return;
-
-  const rect = slider.getBoundingClientRect();
-  let x = e.touches[0].clientX - rect.left;
-
-  x = Math.max(0, Math.min(x, rect.width));
-  percent = (x / rect.width) * 100;
+  animate();
 });
 </script>
 
